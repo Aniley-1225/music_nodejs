@@ -35,8 +35,8 @@ module.exports.login = (req, res) => {
         let flag = bcrypt.compareSync(password, results[0].password);
         if (!flag) return res.errorR(1, '用户名或密码错误');
         const user = {...results[0], password: '', user_pic: '' }
-        token = 'Bearer ' + jwt.sign(user, config.secretKey, { expiresIn: config.expiresIn })
-        res.send({ status: 0, message: '登陆成功！', token: token });
+        token =jwt.sign(user, config.secretKey, { expiresIn: config.expiresIn })
+        res.send({ status: 0, message: '登陆成功！', token: token, id:user.id });
     })
 
 }

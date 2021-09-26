@@ -5,6 +5,7 @@ const cors = require('cors');
 app.use(cors());
 // 解析 application/x-www-form-urlencoded 格式的表单数据的中间件
 app.use(express.urlencoded({ extended: false }));
+app.use(express.json())
 
 // 托管静态资源文件
 app.use('/uploads', express.static('./uploads'))
@@ -28,12 +29,15 @@ app.use((req, res, next) => {
 // 用户路由模块
 const userRouter = require('./router/user');
 app.use('/api', userRouter);
+// 用户信息模块
+const userInfoRouter = require('./router/userInfo');
+app.use('/my', userInfoRouter);
 
 
 const joi = require('joi');
 app.use((err, req, res, next) => {
     if (err instanceof joi.ValidationError) return res.errorR(1, err);
-    if (err.name === 'UnauthorizedError') return res.send({ status: 1, message: '身份认证失败' });
+    if (err.name === 'UnauthorizedError') return res.send(err);
     res.errorR(1, err);
 })
 
