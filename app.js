@@ -2,10 +2,12 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 
+
 app.use(cors());
 // 解析 application/x-www-form-urlencoded 格式的表单数据的中间件
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json())
+
 
 // 托管静态资源文件
 app.use('/uploads', express.static('./uploads'))
@@ -32,6 +34,9 @@ app.use('/api', userRouter);
 // 用户信息模块
 const userInfoRouter = require('./router/userInfo');
 app.use('/my', userInfoRouter);
+// 歌曲模块
+const songInfoRouter = require('./router/songInfo');
+app.use('/song', songInfoRouter);
 
 
 const joi = require('joi');
@@ -42,5 +47,5 @@ app.use((err, req, res, next) => {
 })
 
 app.listen(8080, () => {
-    console.log('server running at http://127.0.0.1:8080');
+    console.log('server running at http://192.168.8.156:8080');
 });
